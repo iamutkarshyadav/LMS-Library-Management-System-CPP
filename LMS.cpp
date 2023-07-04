@@ -199,8 +199,8 @@ public:
 
 void Options::options()
 {
-    int opts;
-    bool running = true; // flag to control the loop
+    char opts; // Change the data type to char
+    bool running = true;
 
     while (running)
     {
@@ -215,13 +215,12 @@ void Options::options()
 
         switch (opts)
         {
-        case '1':
+        case '1': // Use character literals
             registerBook();
             printData();
             saveBookDataToFile("book_data.txt");
             break;
         case '2':
-
             cout << "Issuing the book...\n";
             break;
         case '3':
