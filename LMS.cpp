@@ -16,11 +16,23 @@ public:
     int edition;
     int publishYear;
     int numberOfBooks;
-    vector<BookEntry> books; 
+    vector<BookEntry> books; // Store multiple books
 
     void registerBook();
     void printData();
-    void saveDataToFile(const string &filename);
+    void saveBookDataToFile(const string &filename);
+};
+
+class MemberEntry
+{
+public:
+    string memberName;
+    string memberAddress;
+    string memberEmail;
+    int memberID;
+
+    void registerMember();
+    void saveMemberDataToFile(const string &filename);
 };
 
 void BookEntry::registerBook()
@@ -44,6 +56,7 @@ void BookEntry::registerBook()
         cout << "Enter the Edition (numbers only): ";
         cin >> edition;
 
+        // Create a book object and add it to the vector of books
         BookEntry book;
         book.bookName = bookName;
         book.bookAuthor = bookAuthor;
@@ -95,7 +108,7 @@ void BookEntry::printData()
     }
 }
 
-void BookEntry::saveDataToFile(const string &filename)
+void BookEntry::saveBookDataToFile(const string &filename)
 {
     ofstream outputFile(filename);
 
@@ -105,14 +118,34 @@ void BookEntry::saveDataToFile(const string &filename)
         return;
     }
 
-    for (const auto &book : books)
+    outputFile << "Books in Library\n";
+    outputFile << "=========================================\n";
+    outputFile << left << setw(6) << "S.No"
+               << setw(25) << "Title"
+               << setw(25) << "Author"
+               << setw(25) << "Publication"
+               << setw(15) << "ISBN"
+               << setw(10) << "Edition"
+               << "\n";
+
+    for (int i = 0; i < books.size(); i++)
     {
-        outputFile << "Title: " << book.bookName << endl;
-        outputFile << "Author: " << book.bookAuthor << endl;
-        outputFile << "Publication: " << book.publisher << endl;
-        outputFile << "ISBN: " << book.ISBN << endl;
-        outputFile << "Edition: " << book.edition << endl;
-        outputFile << "--------------------------------------" << endl;
+        if (i >= books.size() - numberOfBooks)
+            outputFile << left << setw(6) << i + 1 << "*"
+                       << setw(25) << books[i].bookName
+                       << setw(25) << books[i].bookAuthor
+                       << setw(25) << books[i].publisher
+                       << setw(15) << books[i].ISBN
+                       << setw(10) << books[i].edition
+                       << "\n";
+        else
+            outputFile << left << setw(6) << i + 1
+                       << setw(25) << books[i].bookName
+                       << setw(25) << books[i].bookAuthor
+                       << setw(25) << books[i].publisher
+                       << setw(15) << books[i].ISBN
+                       << setw(10) << books[i].edition
+                       << "\n";
     }
 
     cout << "Book data saved to file: " << filename << endl;
@@ -120,7 +153,45 @@ void BookEntry::saveDataToFile(const string &filename)
     outputFile.close();
 }
 
-class Options : public BookEntry
+void MemberEntry::registerMember()
+{
+    cout << "===============================\n";
+    cout << "     CLI for Member Entry\n";
+    cout << "===============================\n";
+    cout << "Enter the Name of the Member: ";
+    cin >> memberName;
+    cout << "Enter the Address of the Member: ";
+    cin >> memberAddress;
+    cout << "Enter the Email of the Member: ";
+    cin >> memberEmail;
+    cout << "Enter the Member ID: ";
+    cin >> memberID;
+}
+
+void MemberEntry::saveMemberDataToFile(const string &filename)
+{
+    ofstream outputFile(filename, ios::app);
+
+    if (!outputFile.is_open())
+    {
+        cout << "Failed to open the file: " << filename << endl;
+        return;
+    }
+
+    outputFile << "Member Details\n";
+    outputFile << "=========================================\n";
+    outputFile << "Name: " << memberName << endl;
+    outputFile << "Address: " << memberAddress << endl;
+    outputFile << "Email: " << memberEmail << endl;
+    outputFile << "Member ID: " << memberID << endl;
+    outputFile << "--------------------------------------" << endl;
+
+    cout << "Member data saved to file: " << filename << endl;
+
+    outputFile.close();
+}
+
+class Options : public BookEntry, public MemberEntry
 {
 public:
     void options();
@@ -136,12 +207,20 @@ void Options::options()
     cout << "2. To Issue Book \n";
     cout << "3. Register a Member \n";
     cin >> opts;
+
     switch (opts)
     {
     case 1:
         registerBook();
         printData();
-        saveDataToFile("book_data.txt");
+        saveBookDataToFile("book_data.txt");
+        break;
+    case 3:
+        registerMember();
+        saveMemberDataToFile("member_data.txt");
+        break;
+    default:
+        cout << "Invalid option\n";
         break;
     }
 }
