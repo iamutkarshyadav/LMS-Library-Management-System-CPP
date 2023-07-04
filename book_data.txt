@@ -1,12 +1,5 @@
-Title: java
-Author: utkarsh
-Publication: utkarsh
-ISBN: 123456
-Edition: 12
---------------------------------------
-Title: c++
-Author: utkarsh
-Publication: utkarsh
-ISBN: 678910
-Edition: 213456
---------------------------------------
+Books in Library
+=========================================
+S.No  Title                    Author                   Publication              ISBN           Edition   
+1     *Java                     Utkarsh                  Utkarsh                  123456789      12        
+2     *C++                      Utkarsh                  Utkarsh                  123456789      12        

@@ -33,6 +33,7 @@ public:
 
     void registerMember();
     void saveMemberDataToFile(const string &filename);
+    bool isMemberExist(const string &filename);
 };
 
 void BookEntry::registerBook()
@@ -191,6 +192,34 @@ void MemberEntry::saveMemberDataToFile(const string &filename)
     outputFile.close();
 }
 
+bool MemberEntry::isMemberExist(const string &filename)
+{
+    ifstream inputFile(filename);
+
+    if (!inputFile.is_open())
+    {
+        cout << "Failed to open the file: " << filename << endl;
+        return false;
+    }
+
+    string line;
+    string searchName = "Name: " + memberName;
+    string searchEmail = "Email: " + memberEmail;
+
+    while (getline(inputFile, line))
+    {
+        if (line.find(searchName) != string::npos || line.find(searchEmail) != string::npos)
+        {
+            cout << "Member already exists.\n";
+            inputFile.close();
+            return true;
+        }
+    }
+
+    inputFile.close();
+    return false;
+}
+
 class Options : public BookEntry, public MemberEntry
 {
 public:
@@ -215,7 +244,7 @@ void Options::options()
 
         switch (opts)
         {
-        case '1': // Use character literals
+        case '1': 
             registerBook();
             printData();
             saveBookDataToFile("book_data.txt");
@@ -225,7 +254,8 @@ void Options::options()
             break;
         case '3':
             registerMember();
-            saveMemberDataToFile("member_data.txt");
+            if (!isMemberExist("member_data.txt"))
+                saveMemberDataToFile("member_data.txt");
             break;
         case 27:
             running = false;
