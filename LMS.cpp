@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <iomanip>
 #include <vector>
@@ -19,6 +20,7 @@ public:
 
     void printData();
     void registerBook();
+    void saveDataToFile(const string &filename);
 };
 
 void BookEntry::registerBook()
@@ -83,6 +85,31 @@ void BookEntry::printData()
     }
 }
 
+void BookEntry::saveDataToFile(const string &filename)
+{
+    ofstream outputFile(filename);
+
+    if (!outputFile.is_open())
+    {
+        cout << "Failed to open the file: " << filename << endl;
+        return;
+    }
+
+    for (const auto &book : books)
+    {
+        outputFile << "Title: " << book.bookName << endl;
+        outputFile << "Author: " << book.bookAuthor << endl;
+        outputFile << "Publication: " << book.publisher << endl;
+        outputFile << "ISBN: " << book.ISBN << endl;
+        outputFile << "Edition: " << book.edition << endl;
+        outputFile << "--------------------------------------" << endl;
+    }
+
+    cout << "Book data saved to file: " << filename << endl;
+
+    outputFile.close();
+}
+
 class Options : public BookEntry
 {
 public:
@@ -104,6 +131,7 @@ void Options::options()
     case 1:
         registerBook();
         printData();
+        saveDataToFile("book_data.txt");
         break;
     }
 }
