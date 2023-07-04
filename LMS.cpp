@@ -38,6 +38,10 @@ void BookEntry::registerBook(int i)
         cout << "Enter the Name of the Book \n";
         cin >> bookName;
         cout << "Enter the ISBN number of the Book\n";
+        cin >> ISBN;
+        cout << "Enter the Publication\n";
+        cout << "Enter the Edition (numbers only)\n";
+        cin >> edition;
     }
 }
 
