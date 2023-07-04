@@ -200,28 +200,41 @@ public:
 void Options::options()
 {
     int opts;
-    cout << "===============================\n";
-    cout << "      CLI for Options\n";
-    cout << "===============================\n";
-    cout << "1. To make an Entry of Book\n";
-    cout << "2. To Issue Book \n";
-    cout << "3. Register a Member \n";
-    cin >> opts;
+    bool running = true; // flag to control the loop
 
-    switch (opts)
+    while (running)
     {
-    case 1:
-        registerBook();
-        printData();
-        saveBookDataToFile("book_data.txt");
-        break;
-    case 3:
-        registerMember();
-        saveMemberDataToFile("member_data.txt");
-        break;
-    default:
-        cout << "Invalid option\n";
-        break;
+        cout << "===============================\n";
+        cout << "      CLI for Options\n";
+        cout << "===============================\n";
+        cout << "1. To make an Entry of Book\n";
+        cout << "2. To Issue Book \n";
+        cout << "3. Register a Member \n";
+        cout << "Press Esc key to exit\n";
+        cin >> opts;
+
+        switch (opts)
+        {
+        case '1':
+            registerBook();
+            printData();
+            saveBookDataToFile("book_data.txt");
+            break;
+        case '2':
+
+            cout << "Issuing the book...\n";
+            break;
+        case '3':
+            registerMember();
+            saveMemberDataToFile("member_data.txt");
+            break;
+        case 27:
+            running = false;
+            break;
+        default:
+            cout << "Invalid option\n";
+            break;
+        }
     }
 }
 
