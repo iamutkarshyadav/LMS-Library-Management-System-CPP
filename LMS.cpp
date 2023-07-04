@@ -18,8 +18,8 @@ public:
     int numberOfBooks;
     vector<BookEntry> books; // Store multiple books
 
-    void printData();
     void registerBook();
+    void printData();
     void saveDataToFile(const string &filename);
 };
 
@@ -67,21 +67,32 @@ void BookEntry::printData()
         return;
     }
 
-    cout << left << setw(25) << "Title"
+    cout << left << setw(6) << "S.No"
+         << setw(25) << "Title"
          << setw(25) << "Author"
          << setw(25) << "Publication"
          << setw(15) << "ISBN"
          << setw(10) << "Edition"
          << "\n";
 
-    for (const auto &book : books)
+    for (int i = 0; i < books.size(); i++)
     {
-        cout << left << setw(25) << book.bookName
-             << setw(25) << book.bookAuthor
-             << setw(25) << book.publisher
-             << setw(15) << book.ISBN
-             << setw(10) << book.edition
-             << "\n";
+        if (i >= books.size() - numberOfBooks)
+            cout << left << setw(6) << i + 1 << "*"
+                 << setw(25) << books[i].bookName
+                 << setw(25) << books[i].bookAuthor
+                 << setw(25) << books[i].publisher
+                 << setw(15) << books[i].ISBN
+                 << setw(10) << books[i].edition
+                 << "\n";
+        else
+            cout << left << setw(6) << i + 1
+                 << setw(25) << books[i].bookName
+                 << setw(25) << books[i].bookAuthor
+                 << setw(25) << books[i].publisher
+                 << setw(15) << books[i].ISBN
+                 << setw(10) << books[i].edition
+                 << "\n";
     }
 }
 
