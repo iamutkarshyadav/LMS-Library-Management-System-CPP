@@ -16,7 +16,7 @@ public:
     int edition;
     int publishYear;
     int numberOfBooks;
-    vector<BookEntry> books; // Store multiple books
+    vector<BookEntry> books; 
 
     void registerBook();
     void printData();
@@ -44,7 +44,6 @@ void BookEntry::registerBook()
         cout << "Enter the Edition (numbers only): ";
         cin >> edition;
 
-        // Create a book object and add it to the vector of books
         BookEntry book;
         book.bookName = bookName;
         book.bookAuthor = bookAuthor;
